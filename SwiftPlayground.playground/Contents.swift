@@ -38,7 +38,7 @@ findStudent(withStudentID: 50277282) // Tom stole the cookie!
 findStudent(withStudentID: nil) // nil
 findStudent(withStudentID: 40979255) // nil
 //: ## Question 3: Protocols
-//: Make the class `Building` conform to the `Comparable` Protocol, and implement `getCapacity()`.
+//: Make the class `Building` conform to the `Equatable` Protocol, and implement `getCapacity()`.
 class Building {
     
     var name: String
@@ -87,10 +87,10 @@ class PlaygroundTests: XCTestCase {
                        String(data: Data(base64Encoded: "T3NraSBzdG9sZSB0aGUgY29va2llIQ==")!, encoding: .utf8), "findStudent(withStudentID: 25346602) should return the formatted string with the culprit.")
     }
     
-    func isComparable<T: Equatable>(obj: T) -> Bool { return true }
-    func isComparable<T>(obj: T) -> Bool { return false }
+    func isEquatable<T: Equatable>(obj: T) -> Bool { return true }
+    func isEquatable<T>(obj: T) -> Bool { return false }
     func testBuildingEquatable() {
-        XCTAssertTrue(isComparable(obj: building), "Q3. Building conforms to Equatable.")
+        XCTAssertTrue(isEquatable(obj: building), "Q3. Building conforms to Equatable.")
     }
 
     func testPercentangeStringClosure() {
