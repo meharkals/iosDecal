@@ -13,7 +13,34 @@ import XCTest
 /// - Returns: true if every word in `words` is a palindrome, false otherwise
 func arePalindromes(_ words: [String]) -> Bool {
     // your code here
-    return false
+    for sample in words {
+        let val = isPalindrome(word: sample);
+        if val == false {
+            return false
+        }
+    }
+    return true
+}
+
+func isPalindrome(word: String) -> Bool {
+    if word.count <= 1 {
+        return true
+    } else {
+        let startInd = word.startIndex
+        let endIndexPlusOne = word.endIndex
+        let endInd = word.index(before: endIndexPlusOne) //Last index of the word
+        
+        if word[startInd] != word[endInd] {
+            return false
+        } else {
+            //let range = 1...(word.characters.count - 2);
+            let newStartInd = word.index(after: startInd)
+            let newEndInd = word.index(before: endInd)
+            let subStr = word[newStartInd...newEndInd]
+            let newWord = String(subStr)
+            return isPalindrome(word: newWord)
+        }
+    }
 }
 //: ## Question 2: Optionals
 //: Someone stole a cookie from the GBC! At the crime scene, they found a blue book in the cookie jar with the SID `25346602` on it, no doubt it belonged to the criminal. The manager needs your help finding who it belongs to. Complete this function using the provided dictionary of SIDS called `studentIDNumbers` to find the culprit.
@@ -30,6 +57,12 @@ func findStudent(withStudentID sid: Int?, studentIDNumbers: [Int: String] = getS
     // Note: studentIDNumbers[KEY] always returns an optional since there may not be an entry for that KEY.
     
     // your code here
+    if sid != nil {//}|| sid != 25346602 {
+        let culprit  = studentIDNumbers[sid!];
+        if let name = culprit {
+            return name + " stole the cookie!"
+        }
+    }
     return nil
 }
 
@@ -39,7 +72,7 @@ findStudent(withStudentID: nil) // nil
 findStudent(withStudentID: 40979255) // nil
 //: ## Question 3: Protocols
 //: Make the class `Building` conform to the `Equatable` Protocol, and implement `getCapacity()`.
-class Building {
+class Building: Equatable {
     
     var name: String
     var capacity: Int?
@@ -51,7 +84,16 @@ class Building {
     
     //: Returns the `capacity` of the building. If the `capacity` is `nil`, then return `0`.
     func getCapacity() -> Int {
-        return -1 // your code here
+        if capacity == nil {
+            return 0
+        } else {
+            return capacity!
+        }
+        //return -1 // your code here
+    }
+    
+    static func == (lhs: Building, rhs: Building) -> Bool {
+        return lhs.name == rhs.name && lhs.capacity == rhs.capacity
     }
 }
 
@@ -70,7 +112,7 @@ func percentageString(forNumber x: Double) -> String {
 }
 
 var percentageStringClosure = {
-    // your code here
+    (x: Double) -> String in String(x*10) + "%"
 }
 //: Tests below (Ignore)
 class PlaygroundTests: XCTestCase {
@@ -92,7 +134,7 @@ class PlaygroundTests: XCTestCase {
     func testBuildingEquatable() {
         XCTAssertTrue(isEquatable(obj: building), "Q3. Building conforms to Equatable.")
     }
-
+    
     func testPercentangeStringClosure() {
         let closure: Any? = percentageStringClosure
         if let closure = closure as? (Double) -> String {
@@ -104,5 +146,5 @@ class PlaygroundTests: XCTestCase {
     
 }
 //: ## Uncomment this line to run tests
-//PlaygroundTests.defaultTestSuite.run()
+PlaygroundTests.defaultTestSuite.run()
 
